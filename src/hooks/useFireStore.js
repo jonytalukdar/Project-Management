@@ -65,6 +65,8 @@ const useFireStore = () => {
   const [response, dispatch] = useReducer(reducer, initialState);
   const [isCancelled, setIsCancelled] = useState(false);
 
+  console.log(response.user);
+
   //add document
   const addDocument = async (doc) => {
     dispatch({ type: 'IS_LOADING' });

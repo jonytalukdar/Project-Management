@@ -1,18 +1,47 @@
 import React, { useState } from 'react';
+import useSignup from '../../hooks/useSignup';
 
 //styles
 import './Signup.css';
 
 const Signup = () => {
+  const { signup, isLoading, error } = useSignup();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
-  const [thumbnail, setThumbnail] = useState('');
+  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailError, setThumbnailError] = useState(null);
 
-  const handleSubmit = (e) => {
+  //file upload
+
+  const handleFileUpload = (e) => {
+    setThumbnail(null);
+    let selected = e.target.files[0];
+
+    if (!selected) {
+      setThumbnailError('Please selec a file!');
+      return;
+    }
+
+    if (!selected.type.includes('image')) {
+      setThumbnailError('Selected file must be an image!');
+      return;
+    }
+
+    if (selected.size > 100000) {
+      setThumbnailError('Selected image size must be less than 100kb');
+      return;
+    }
+
+    setThumbnailError(null);
+    setThumbnail(selected);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email, password, displayName, thumbnail);
+    await signup(email, password, displayName, thumbnail);
   };
 
   return (
@@ -51,11 +80,13 @@ const Signup = () => {
 
       <label>
         <span>Profile Picture:</span>
-        <input type="file" required />
+        <input type="file" required onChange={handleFileUpload} />
+        {thumbnailError && <div className="error">{thumbnailError}</div>}
       </label>
 
+      {error && <div className="error">{error}</div>}
       <button type="submit" className="btn">
-        Sign Up
+        {isLoading ? 'Loading' : 'Sign Up'}
       </button>
     </form>
   );
