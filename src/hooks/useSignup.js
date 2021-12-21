@@ -12,10 +12,14 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
+
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
+
 import { AuthContext } from '../context/AuthContext';
 
 const auth = getAuth(app);
 const storage = getStorage(app);
+const db = getFirestore(app);
 
 const useSignup = () => {
   const { dispatch } = useContext(AuthContext);
@@ -42,16 +46,19 @@ const useSignup = () => {
         throw new Error('Could not complete signup!');
       }
 
-      //upload user profile photo
+      //upload photo
 
-      // Upload file and metadata to the object 'images/mountains.jpg'
-      const storageRef = ref(storage, `images/${user.uid}` + thumbnail.name);
+      const storageRef = ref(
+        storage,
+        `thumbnails/${user.uid}/${thumbnail.name}`
+      );
       const uploadTask = uploadBytesResumable(
         storageRef,
         thumbnail,
         'image/jpeg'
       );
 
+      // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
         'state_changed',
         (snapshot) => {
@@ -62,9 +69,15 @@ const useSignup = () => {
         (error) => {
           console.log(error);
         },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            updateProfile(user, { photoURL: downloadURL });
+        async () => {
+          const photoURL = await getDownloadURL(uploadTask.snapshot.ref);
+          await updateProfile(user, { photoURL });
+          // crete user document
+
+          await setDoc(doc(db, 'users', user.uid), {
+            online: true,
+            displayName,
+            photoURL,
           });
         }
       );
