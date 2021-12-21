@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useLogout from '../hooks/useLogout';
 
 import Temple from '../assets/temple.svg';
 
@@ -7,6 +8,7 @@ import Temple from '../assets/temple.svg';
 import './Navbar.css';
 
 const Navbar = () => {
+  const { signout, isLoading } = useLogout();
   return (
     <nav className="navbar">
       <ul>
@@ -22,7 +24,9 @@ const Navbar = () => {
           <Link to="/signup">Signup</Link>
         </li>
         <li>
-          <button className="btn">Logout</button>
+          <button className="btn" onClick={signout}>
+            {isLoading ? 'Signout..' : 'Logout'}
+          </button>
         </li>
       </ul>
     </nav>

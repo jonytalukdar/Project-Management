@@ -72,8 +72,8 @@ const useSignup = () => {
         async () => {
           const photoURL = await getDownloadURL(uploadTask.snapshot.ref);
           await updateProfile(user, { photoURL });
-          // crete user document
 
+          // crete user document
           await setDoc(doc(db, 'users', user.uid), {
             online: true,
             displayName,

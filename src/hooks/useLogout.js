@@ -4,10 +4,13 @@ import { app } from '../firebase/Firebase.config';
 import { getAuth, signOut } from 'firebase/auth';
 import { AuthContext } from '../context/AuthContext';
 
+import { getFirestore, doc, updateDoc } from 'firebase/firestore';
+
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const useLogout = () => {
-  const { dispatch } = useContext(AuthContext);
+  const { dispatch, user } = useContext(AuthContext);
 
   //states
   const [isCancelled, setIsCancelled] = useState(false);
@@ -19,7 +22,16 @@ const useLogout = () => {
     setIsLoading(true);
 
     try {
+      const { uid } = user;
+
+      /// update online status
+      const updatedUsers = doc(db, 'users', uid);
+      await updateDoc(updatedUsers, {
+        online: false,
+      });
+
       await signOut(auth);
+
       dispatch({ type: 'LOGOUT' });
 
       //update state
