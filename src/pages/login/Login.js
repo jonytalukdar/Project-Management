@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(email, password);
+    signin(email, password);
   };
 
   return (
@@ -43,7 +43,7 @@ const Login = () => {
 
       {error && <div className="error">{error}</div>}
       <button type="submit" className="btn">
-        {isLoading ? 'Loading' : 'Login'}
+        {isLoading ? 'Login....' : 'Login'}
       </button>
     </form>
   );
