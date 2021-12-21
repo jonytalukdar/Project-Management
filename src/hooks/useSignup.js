@@ -47,7 +47,6 @@ const useSignup = () => {
       }
 
       //upload photo
-
       const storageRef = ref(
         storage,
         `thumbnails/${user.uid}/${thumbnail.name}`
