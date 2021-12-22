@@ -15,39 +15,41 @@ import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user, authIsReady } = useContext(AuthContext);
 
   return (
     <div className="App">
-      <Sidebar />
+      {user && <Sidebar />}
       <div className="container">
         <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={user ? <Dashboard /> : <Navigate to="/login" />}
-          />
+        {authIsReady && (
+          <Routes>
+            <Route
+              path="/"
+              element={user ? <Dashboard /> : <Navigate to="/login" />}
+            />
 
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <Login />}
-          />
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login />}
+            />
 
-          <Route
-            path="/signup"
-            element={user ? <Navigate to="/" /> : <Signup />}
-          />
+            <Route
+              path="/signup"
+              element={user ? <Navigate to="/" /> : <Signup />}
+            />
 
-          <Route
-            path="/create"
-            element={user ? <Create /> : <Navigate to="/login" />}
-          />
+            <Route
+              path="/create"
+              element={user ? <Create /> : <Navigate to="/login" />}
+            />
 
-          <Route
-            path="/project/:id"
-            element={user ? <Project /> : <Navigate to="/login" />}
-          />
-        </Routes>
+            <Route
+              path="/project/:id"
+              element={user ? <Project /> : <Navigate to="/login" />}
+            />
+          </Routes>
+        )}
       </div>
     </div>
   );
