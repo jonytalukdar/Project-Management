@@ -23,7 +23,7 @@ const useCollection = (_queryString, _orderBy) => {
 
   useEffect(() => {
     setIsLoading(true);
-    let ref = query(collection(db, 'transactions'));
+    let ref = query(collection(db, 'users'));
 
     if (queryString) {
       ref = query(ref, where(...queryString));

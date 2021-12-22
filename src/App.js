@@ -1,5 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
+
 //styles
 import './App.css';
 
@@ -11,8 +14,7 @@ import Project from './pages/project/Project';
 import Signup from './pages/signup/Signup';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import { useContext } from 'react';
-import { AuthContext } from './context/AuthContext';
+import OnlineUsers from './components/OnlineUsers';
 
 function App() {
   const { user, authIsReady } = useContext(AuthContext);
@@ -51,6 +53,7 @@ function App() {
           </Routes>
         )}
       </div>
+      {user && <OnlineUsers />}
     </div>
   );
 }
