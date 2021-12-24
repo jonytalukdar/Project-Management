@@ -7,7 +7,7 @@ import {
   Timestamp,
   deleteDoc,
   doc,
-} from 'firebase/firestore/lite';
+} from 'firebase/firestore';
 
 const db = getFirestore(app);
 const timestamp = Timestamp;
@@ -60,12 +60,10 @@ const reducer = (state, action) => {
   }
 };
 
-const useFireStore = () => {
+const useFireStore = (collectionName) => {
   ///states
   const [response, dispatch] = useReducer(reducer, initialState);
   const [isCancelled, setIsCancelled] = useState(false);
-
-  console.log(response.user);
 
   //add document
   const addDocument = async (doc) => {
@@ -73,7 +71,7 @@ const useFireStore = () => {
 
     try {
       const createdAt = timestamp.fromDate(new Date());
-      const response = await addDoc(collection(db, 'transactions'), {
+      const response = await addDoc(collection(db, collectionName), {
         ...doc,
         createdAt,
       });
@@ -94,7 +92,7 @@ const useFireStore = () => {
     dispatch({ type: 'IS_LOADING' });
 
     try {
-      await deleteDoc(doc(db, 'transactions', id));
+      await deleteDoc(doc(db, collectionName, id));
       if (!isCancelled) {
         dispatch({ type: 'DELETED_DOCUMENT' });
       }

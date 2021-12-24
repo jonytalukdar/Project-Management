@@ -5,10 +5,13 @@ import { AuthContext } from '../../context/AuthContext';
 
 //react select
 import Select from 'react-select';
+
 import useCollection from '../../hooks/useCollection';
+import useFireStore from '../../hooks/useFireStore';
 
 //styles
 import './Create.css';
+import { useNavigate } from 'react-router-dom';
 
 const timestamp = Timestamp;
 
@@ -23,7 +26,11 @@ const categories = [
 const Create = () => {
   const { user } = useContext(AuthContext);
   const { documents } = useCollection();
+  const { addDocument, response } = useFireStore('projects');
   const [users, setUsers] = useState([]);
+
+  const navigate = useNavigate();
+
   //states
   const [name, setName] = useState('');
   const [details, setDetails] = useState('');
@@ -43,7 +50,7 @@ const Create = () => {
   }, [documents]);
 
   //submit Handler
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     setFormError(null);
 
@@ -81,7 +88,10 @@ const Create = () => {
       assignedUsersList,
     };
 
-    console.log(project);
+    await addDocument(project);
+    if (!response.error) {
+      navigate('/');
+    }
   };
 
   return (
