@@ -24,6 +24,7 @@ const Create = () => {
   const [dueDate, setDueDate] = useState('');
   const [categoy, setCategory] = useState('');
   const [assignedUsers, setAssignedUsers] = useState([]);
+  const [formError, setFormError] = useState(null);
 
   //fetch user for options
   useEffect(() => {
@@ -38,6 +39,17 @@ const Create = () => {
   //submit Handler
   const submitHandler = (e) => {
     e.preventDefault();
+    setFormError(null);
+
+    if (!categoy) {
+      setFormError('Plase select the category!');
+      return;
+    }
+
+    if (assignedUsers.length === 0) {
+      setFormError('Please select a project to at least one user!');
+      return;
+    }
 
     console.log(name, details, dueDate, categoy.value, assignedUsers);
   };
@@ -94,7 +106,7 @@ const Create = () => {
             isMulti
           />
         </label>
-
+        {formError && <div className="error">{formError}</div>}
         <button className="btn">Create</button>
       </form>
     </div>
