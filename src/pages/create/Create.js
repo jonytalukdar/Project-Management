@@ -25,7 +25,7 @@ const categories = [
 
 const Create = () => {
   const { user } = useContext(AuthContext);
-  const { documents } = useCollection();
+  const { documents } = useCollection('users');
   const { addDocument, response } = useFireStore('projects');
   const [users, setUsers] = useState([]);
 
@@ -147,7 +147,11 @@ const Create = () => {
           />
         </label>
         {formError && <div className="error">{formError}</div>}
-        <button className="btn">Create</button>
+        {response.error && <div className="error">{response.error}</div>}
+
+        <button className="btn">
+          {response.isLoading ? 'Loading' : 'Create'}
+        </button>
       </form>
     </div>
   );

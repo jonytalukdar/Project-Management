@@ -11,7 +11,7 @@ import {
 
 const db = getFirestore(app);
 
-const useCollection = (_queryString, _orderBy) => {
+const useCollection = (collectionName, _queryString, _orderBy) => {
   const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ const useCollection = (_queryString, _orderBy) => {
 
   useEffect(() => {
     setIsLoading(true);
-    let ref = query(collection(db, 'users'));
+    let ref = query(collection(db, `${collectionName}`));
 
     if (queryString) {
       ref = query(ref, where(...queryString));
@@ -51,7 +51,7 @@ const useCollection = (_queryString, _orderBy) => {
     );
 
     return () => unsubscribe();
-  }, [queryString, orderByDoc]);
+  }, [collectionName, queryString, orderByDoc]);
 
   return { documents, error, isLoading };
 };

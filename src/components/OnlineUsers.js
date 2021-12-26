@@ -7,7 +7,7 @@ import useCollection from '../hooks/useCollection';
 import './OnlineUsers.css';
 
 const OnlineUsers = () => {
-  const { documents, error } = useCollection();
+  const { documents, error } = useCollection('users');
 
   return (
     <div className="user-list">
