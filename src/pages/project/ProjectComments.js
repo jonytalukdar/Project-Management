@@ -9,7 +9,7 @@ import Avatar from '../../components/Avatar';
 
 const timestamp = Timestamp;
 
-const ProjectComments = ({ project, id }) => {
+const ProjectComments = ({ project }) => {
   const { user } = useContext(AuthContext);
   const [comment, setComment] = useState('');
   const { updateDocument, response } = useFireStore('projects');
@@ -25,7 +25,7 @@ const ProjectComments = ({ project, id }) => {
       id: Math.random(),
     };
 
-    await updateDocument(id, [...project.comments, newComment]);
+    await updateDocument(project.id, [...project.comments, newComment]);
 
     if (!response.error) {
       setComment('');

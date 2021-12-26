@@ -16,7 +16,7 @@ const useDocument = (collectionName, id) => {
       doc(db, `${collectionName}`, `${id}`),
       (doc) => {
         if (doc.data()) {
-          setDocument({ ...doc.data() });
+          setDocument({ ...doc.data(), id: doc.id });
           setError(null);
           setIsLoading(false);
         } else {

@@ -23,7 +23,7 @@ const Project = () => {
   return (
     <div className="project-details">
       {document && <ProjectSummary project={document} />}
-      {document && <ProjectComments project={document} id={id} />}
+      {document && <ProjectComments project={document} />}
     </div>
   );
 };

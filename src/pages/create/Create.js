@@ -64,12 +64,6 @@ const Create = () => {
       return;
     }
 
-    const createdBy = {
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      id: user.uid,
-    };
-
     const assignedUsersList = assignedUsers.map((u) => {
       return {
         displayName: u.value.displayName,
@@ -77,6 +71,12 @@ const Create = () => {
         id: u.value.id,
       };
     });
+
+    const createdBy = {
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      id: user.uid,
+    };
 
     const project = {
       name,
