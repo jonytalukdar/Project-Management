@@ -33,8 +33,6 @@ const ProjectComments = ({ project }) => {
     }
   };
 
-  console.log(project.comments);
-
   return (
     <div className="project-comments">
       <h4>Project Comment</h4>

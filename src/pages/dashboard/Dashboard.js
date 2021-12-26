@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [currentFilter, setCurrentFilter] = useState('all');
 
   const changeFilter = (newFilter) => {
+    console.log(newFilter);
     setCurrentFilter(newFilter);
   };
 

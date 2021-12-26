@@ -11,7 +11,6 @@ const filterList = [
 
 const ProjectFilter = ({ currentFilter, changeFilter }) => {
   const filteredHandler = (filtered) => {
-    console.log(filtered);
     changeFilter(filtered);
   };
 
