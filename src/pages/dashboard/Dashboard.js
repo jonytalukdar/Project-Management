@@ -1,16 +1,17 @@
 import { useContext } from 'react';
 import { useState } from 'react';
 import ProjectList from '../../components/ProjectList';
+import ProjectFilter from './ProjectFilter';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
 import useCollection from '../../hooks/useCollection';
 import { AuthContext } from '../../context/AuthContext';
 
 //style
 import './Dashboard.css';
-import ProjectFilter from './ProjectFilter';
 
 const Dashboard = () => {
-  const { documents, error } = useCollection('projects');
+  const { documents, error, isLoading } = useCollection('projects');
   const { user } = useContext(AuthContext);
 
   //states
@@ -40,13 +41,16 @@ const Dashboard = () => {
           case 'design':
           case 'sales':
           case 'marketing':
-            // console.log(document.category, currentFilter);
             return document.category === currentFilter;
           default:
             return true;
         }
       })
     : null;
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div>

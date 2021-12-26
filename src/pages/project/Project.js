@@ -6,6 +6,7 @@ import ProjectSummary from './ProjectSummary';
 
 import './Project.css';
 import ProjectComments from './ProjectComments';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
 const Project = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const Project = () => {
   }
 
   if (isLoading) {
-    return <h2>loading..</h2>;
+    return <LoadingSpinner />;
   }
 
   return (

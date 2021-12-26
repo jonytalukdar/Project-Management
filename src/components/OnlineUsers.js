@@ -1,13 +1,18 @@
 import React from 'react';
 
 import Avatar from './Avatar';
+import LoadingSpinner from './UI/LoadingSpinner';
 import useCollection from '../hooks/useCollection';
 
 //styles
 import './OnlineUsers.css';
 
 const OnlineUsers = () => {
-  const { documents, error } = useCollection('users');
+  const { documents, error, isLoading } = useCollection('users');
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="user-list">

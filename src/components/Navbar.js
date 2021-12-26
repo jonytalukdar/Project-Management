@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useLogout from '../hooks/useLogout';
 
 import Temple from '../assets/temple.svg';
+import Idea from '../assets/idea.png';
 
 //styles
 import './Navbar.css';
@@ -16,8 +17,9 @@ const Navbar = () => {
     <nav className="navbar">
       <ul>
         <li className="logo">
-          <img src={Temple} alt="Dojo" />
-          <span>The Dojo</span>
+          <img src={Idea} alt="Dojo" />
+
+          <span>Projective</span>
         </li>
 
         {!user && (

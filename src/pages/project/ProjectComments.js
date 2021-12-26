@@ -35,7 +35,7 @@ const ProjectComments = ({ project }) => {
 
   return (
     <div className="project-comments">
-      <h4>Project Comment</h4>
+      <h4>Project Comments</h4>
 
       {/* comments list */}
       <ul>
