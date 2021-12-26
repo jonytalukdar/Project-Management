@@ -12,6 +12,7 @@ import ProjectFilter from './ProjectFilter';
 const Dashboard = () => {
   const { documents, error } = useCollection('projects');
   const { user } = useContext(AuthContext);
+
   //states
   const [currentFilter, setCurrentFilter] = useState('all');
 
@@ -22,27 +23,24 @@ const Dashboard = () => {
   const projects = documents
     ? documents.filter((document) => {
         switch (currentFilter) {
-          case 'all': {
+          case 'all':
             return true;
-          }
 
-          case 'mine': {
-            let assignedToMe;
+          case 'mine':
+            let assignedToMe = false;
             document.assignedUsersList.forEach((u) => {
-              if (user.uid === u.id) {
+              if (u.id === user.uid) {
                 assignedToMe = true;
               }
             });
             return assignedToMe;
-          }
 
           case 'development':
           case 'design':
-          case 'marketing':
           case 'sales':
-            console.log(currentFilter, document);
+          case 'marketing':
+            // console.log(document.category, currentFilter);
             return document.category === currentFilter;
-
           default:
             return true;
         }
