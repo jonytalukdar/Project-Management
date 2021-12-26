@@ -5,6 +5,7 @@ import useDocument from '../../hooks/useDocument';
 import ProjectSummary from './ProjectSummary';
 
 import './Project.css';
+import ProjectComments from './ProjectComments';
 
 const Project = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const Project = () => {
   return (
     <div className="project-details">
       {document && <ProjectSummary project={document} />}
+      {document && <ProjectComments project={document} id={id} />}
     </div>
   );
 };

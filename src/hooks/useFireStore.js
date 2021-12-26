@@ -7,6 +7,7 @@ import {
   Timestamp,
   deleteDoc,
   doc,
+  updateDoc,
 } from 'firebase/firestore';
 
 const db = getFirestore(app);
@@ -45,6 +46,15 @@ const reducer = (state, action) => {
       };
     }
 
+    case 'UPDATED_DOC': {
+      return {
+        document: action.payload,
+        isLoading: false,
+        error: null,
+        success: true,
+      };
+    }
+
     case 'ERROR': {
       return {
         document: null,
@@ -71,7 +81,7 @@ const useFireStore = (collectionName) => {
 
     try {
       const createdAt = timestamp.fromDate(new Date());
-      const response = await addDoc(collection(db, collectionName), {
+      const response = await addDoc(collection(db, `${collectionName}`), {
         ...doc,
         createdAt,
       });
@@ -87,15 +97,35 @@ const useFireStore = (collectionName) => {
   };
 
   //delete document
-
   const deleteDocument = async (id) => {
     dispatch({ type: 'IS_LOADING' });
 
     try {
-      await deleteDoc(doc(db, collectionName, id));
+      await deleteDoc(doc(db, `${collectionName}`, id));
       if (!isCancelled) {
         dispatch({ type: 'DELETED_DOCUMENT' });
       }
+    } catch (error) {
+      if (!isCancelled) {
+        dispatch({ type: 'ERROR', payload: error.message });
+      }
+    }
+  };
+
+  // upate document
+
+  const updateDocument = async (id, updatedDoc) => {
+    dispatch({ type: 'IS_LOADING' });
+
+    try {
+      const newUpdatedDocRef = doc(db, `${collectionName}`, id);
+      await updateDoc(newUpdatedDocRef, {
+        comments: updatedDoc,
+      });
+
+      dispatch({ type: 'UPDATED_DOC', payload: newUpdatedDocRef });
+
+      return newUpdatedDocRef;
     } catch (error) {
       if (!isCancelled) {
         dispatch({ type: 'ERROR', payload: error.message });
@@ -109,7 +139,7 @@ const useFireStore = (collectionName) => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { response, addDocument, deleteDocument };
+  return { response, addDocument, deleteDocument, updateDocument };
 };
 
 export default useFireStore;
