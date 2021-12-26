@@ -35,7 +35,7 @@ const Create = () => {
   const [name, setName] = useState('');
   const [details, setDetails] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [categoy, setCategory] = useState('');
+  const [category, setCategory] = useState('');
   const [assignedUsers, setAssignedUsers] = useState([]);
   const [formError, setFormError] = useState(null);
 
@@ -54,7 +54,7 @@ const Create = () => {
     e.preventDefault();
     setFormError(null);
 
-    if (!categoy) {
+    if (!category) {
       setFormError('Plase select the category!');
       return;
     }
@@ -82,7 +82,7 @@ const Create = () => {
       name,
       details,
       dueDate: timestamp.fromDate(new Date(dueDate)),
-      categoy: categoy.value,
+      category: category.value,
       createdBy,
       comments: [],
       assignedUsersList,
